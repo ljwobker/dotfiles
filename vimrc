@@ -8,6 +8,8 @@ set nocindent
 set nocompatible
 syntax on
 colorscheme slate
+filetype on
+au BufNewFile,BufRead *.p4 set filetype=p4
 
 "let &t_ti.="\e[1 q"
 "let &t_SI.="\e[5 q"
