@@ -30,5 +30,23 @@ function runlg ()
   fi
 }
 
+function p4update ()
+{
+
+
+  if [ ! -d ./submodules ]; then
+    echo "No submodules directory here... exiting"
+  else
+
+    for dir in p4c-graphs p4c-tofino p4c-behavioral p4-hlir ; do
+      cd submodules/$dir
+      sudo python setup.py install &> /tmp/$dir-update.log &
+      cd -
+    done
+  echo "done"
+  fi
+
+}
+
 
   
