@@ -154,16 +154,16 @@ Test cases
 ==========
 As a starting point, here are two simple test cases that can be built on top of the baseline topology and tools:
 
-Iperf Test
+Example 1: iperf test
 ----------
-As a reminder, the mininet script launches "iperf" servers (listeners) on all four hosts, and starts two iperf clients (talkers) on hosts h1 and h3.  Additional iperf clients can be started manually as follows:
+As a reminder, the mininet script launches iperf servers (listeners) on all four hosts, and starts two iperf clients (talkers) on hosts h1 and h3.  Additional iperf clients can be started manually as follows:
 
         mininet> h1 xterm
         iperf -c 10.2.1.3 -t 60     # run this inside the launched xterm to start a new iperf session
 
 Once started, the monitor and web client will be notified of the new connection, and you can select it via the flow filter on the UI. The web client will confirm the physical path the connection is taking, as well as the latency values collected via each packet along the network path.
 
-Fail-over test
+Example 2: routing fail-over test
 --------------
   * Start a long-running iperf connection between h1 and h3.  Check which spine switch the connection passes through, using the web client UI.
   * Open a terminal on the leaf1 switch using the command "leaf1 xterm" at the mininet CLI.
