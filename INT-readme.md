@@ -178,4 +178,4 @@ Known issues, performance limitations
 * If you run the entire topology on a machine with limited CPU resources and run multiple high-volume connections, the setup can get overloaded.  In such a situation, the reported hop latency values may be very high due to scheduling variability  in the packet-handling threads.  This can be mitigated (but only to a small extent) by prioritizing the switch processes.
 * Changes such as adding switches, increasing the bandwidth of the mininet links, or adding active connections can increase the contention for CPU cycles.  Check the CPU utilization of the system if inconsistent results are observed.
 * the iperf server process may hang under high workload (under investigation)
-* Do not reload/refresh the web client page while application is running - if this occurs the connection between the client and monitor process will drop and **both** will need to be reset.
+* Do not reload/refresh the web client page while application is running - if this occurs the connection between the client and monitor process will drop and **both** will need to be reset (See "Restarting the reference application" above).
