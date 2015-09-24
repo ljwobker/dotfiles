@@ -79,27 +79,21 @@ using mininet.
 
 The application is composed of 3 major components:
 
-1. **Preprocessor:** The preprocessor process at each host, strips out the INT
-   headers and metadata values from each packet and sends them to a central
-   monitor process.
-2. **Monitor:** This process does the following -
+1. **Preprocessor:** The preprocessor process runs on each host, and strips out the INT headers and metadata values from each packet and sends them to a central monitoring process.
+2. **Monitor:** The monitor process -
     * Receives INT data from all the mininet hosts.
     * Aggregates the data and performs new flow and path change detection.
-    * Sends data to to a web client
-3. **Web client:** Receives moinitoring information from the monitor and 
-    visualizes it.
+    * Sends the processed monitor data to to a web client
+3. **Web client:** the web client receives information from the monitor process and performs the visualization within a browser instance.
 
-Test network configuration
+
+Test network topology
 ==========================
-
-We use mininet to set up a test network for the application. The network is
-composed of 4 hosts, 2 ToR switches and 2 spine switches. The switches are
-connected in a leaf-spine architecture. The following diagram illustrates the
-topology in greater detail.
+We use mininet to set up a test network for the application. The network is composed of 4 hosts, 2 leaf switches, and 2 spine switches. The following diagram illustrates the topology in greater detail.
 
 !['Mininet network topology'](resources/mininet_topology.png)
 
-Each mininet host has 3 major network interfaces:
+Each emulated mininet host is configured with 3 network interfaces:
 
 1. eth0 : Connected to one of the ToR switches
 2. veth0 : A VTEP that connects to a VXLAN (on the 10.2.1.0/24 subnet)
@@ -108,39 +102,29 @@ Each mininet host has 3 major network interfaces:
 
 Routing configuration of the switches
 -------------------------------------
-
-* The switches run eBGP to exchange routing information.
-* Each leaf switch has its own unique AS number, and the spine switches share 
-  one common AS number.
+* All switches run eBGP (via Quagga) to exchange routing and topology information.
+* Each leaf switch has its own unique AS number, and the spine switches share one common AS number.
 
 Background traffic
 ------------------
-
-The mininet script automatically invokes full-mesh ping sessions among all the 
-four end hosts.
+The mininet script automatically invokes full-mesh ping sessions among all the four end hosts.
 
 End-host networking stack
 =========================
 
 VxLAN-GPE Driver
 ----------------
-Linux Vxlan driver has been modified to use UDP port 4790 and use VxLAN-GPE 
-header format. It inserts/removes INT shim header and INT metadata headers at 
-INT source and INT sink respectively.
+The linux VXLAN driver has been modified to use UDP port 4790 and use the VxLAN-GPE 
+header format.  It inserts/removes the INT shim header and INT metadata headers at 
+INT source and INT sink respectively.  (Details of this operation are in [[TODO the spec]]
 
-INT Source
+INT Sources
 ----------
-As described in an earlier section, each mininet host has a VTEP.
-VXLAN-GPE driver enables INT source function on all IP unicast packets sent
-from a host through its VTEP. Within the INT metadata header, the instruction
-mask bits for switchID, hop latency and queue occupancy are set. Hence, each
-switch along the path would add this information to the packet.
+As described in an earlier section, each mininet host has a VTEP endpoint.  The VXLAN-GPE driver enables the INT source functionality on all IP unicast packets sent through its VTEP.  Within the INT metadata header bits are set for {switchID, hop latency, queue occupancy}. These bits instruct each switch along the path to add the specified telemetry information to the metadata stack of the packet.
 
 INT Sink
 ----------
-Each host runs an instance of a preprocessor process, which captures all the 
-VXLAN-GPE packets received. The preprocessor strips out the INT headers and 
-metadata values from each packet and sends them to the monitor process.
+Each mininet host runs an instance of the preprocessor process, which captures all the VXLAN-GPE packets received. The preprocessor strips out the INT headers and metadata values from each packet and sends them to the monitor process.
 
 !['Host networking stack'](resources/host_network_stack.png)
 
