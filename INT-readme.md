@@ -1,9 +1,8 @@
 Overview
 ========
+First:  you are well advised to read the entire file before starting.  ;-)
 
-This is a reference implementation of the Inband Network Telemetry (from now "INT") specification, which allows programmable switches to embed telemetry information
-directly into data packets.
-The application has three components - a preprocessor, a monitor and a user interface (details below).  This app collects the packet latency at each device in the simulated topology and plots the output in the user interface visualizer. 
+This is a reference implementation of the Inband Network Telemetry (from now "INT") specification, which allows programmable switches to embed telemetry information directly into data packets.  The application has three components - a preprocessor, a monitor and a user interface (details below).  This app collects the packet latency at each device in the simulated topology and plots the output in the user interface visualizer. 
 
 This example uses the "INT over VxLAN-GPE" header format.
 
