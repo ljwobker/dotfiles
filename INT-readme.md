@@ -1,45 +1,51 @@
 Overview
 ========
 
-This is a reference application meant to be a proof-of-concept implementation
-of In-band Network Telemetry (INT) [http://TODO].
-This reference application has three components - preprocessor, monitor and
-user interface (described below). This application demonstrates a simple
-network monitoring use case based on the network information collected using INT
-protocol.
-In this example, the test network uses INT over VxLAN-GPE.
+This is a reference implementation of the Inband Network Telemetry (from now "INT") specification, which allows programmable switches to embed telemetry information
+directly into data packets.
+The application has three components - a preprocessor, a monitor and a user interface (details below).  This app collects the packet latency at each device in the simulated topology and plots the output in the user interface visualizer. 
+
+This example uses the "INT over VxLAN-GPE" header format.
 
 Setting up the environment
 ===========================
 
-* Ensure that the following dependencies are met before running INT reference application
-  * Install linux kernel 3.19
-    * On Ubuntu, the kernel can be upgraded to 3.19 by running the following command:
-      * sudo apt-get install linux-generic-lts-vivid
-  * Install docker
-    * curl -sSL https://get.docker.com/ | sh
+* Ensure that the following dependencies are met before running the INT reference application
+  * Install linux kernel 3.19 (command for Ubuntu:)
+
+            sudo apt-get install linux-generic-lts-vivid
+
+  * Install docker (important: do NOT do "apt-get install docker" or "apt-get install docker.io")
+
+            curl -sSL https://get.docker.com/ | sh
+
   * Install other dependencies
-    * sudo apt-get install python3
-    * sudo apt-get install python3-pip
-    * sudo apt-get install bridge-utils
-    * sudo pip3 install websockets
-    * sudo pip3 install scapy-python3
-    
+
+            sudo apt-get install python3 
+            sudo apt-get install python3-pip 
+            sudo apt-get install bridge-utils
+            sudo pip3 install scapy-python3
+            sudo pip3 install websockets 
+
 * Build a docker image for the switch
-  * cd p4factory
-  * sudo ./install_deps.sh
-  * cd p4factory/targets/switch
-  * make docker-image
-  * make switchapi_THRIFT
+
+        cd p4factory
+        sudo ./install_deps.sh
+        cd p4factory/targets/switch
+        make docker-image
+        make switchapi_THRIFT
 
 * Build and install the VXLAN-GPE driver provided in the repo
-  * cd p4factory/apps/int/vxlan-gpe
-  * make
-  * sudo ./install_driver.sh
-  * Ensure that the driver has been installed successfully using following checks -
-    * lsmod | grep vxlan - this should list vxlan as one of the loaded modules
-    * dmesg | grep "VXLAN-GPE"
-      * This should list the following message: "[VXLAN-GPE] Loading VXLAN-GPE driver"
+
+        cd p4factory/apps/int/vxlan-gpe
+        make
+        sudo ./install_driver.sh
+        
+* You can verify that the driver has been installed successfully using the following checks -
+
+        lsmod | grep vxlan     # - this should list vxlan as one of the loaded modules
+        dmesg | grep "VXLAN-GPE"  # - this will show "Loading VXLAN-GPE driver"
+
 
 Running the reference application
 =================================
