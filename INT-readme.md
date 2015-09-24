@@ -154,8 +154,8 @@ Test cases
 ==========
 As a starting point, here are two simple test cases that can be built on top of the baseline topology and tools:
 
-* Iperf Test
-
+Iperf Test
+----------
 As a reminder, the mininet script launches "iperf" servers (listeners) on all four hosts, and starts two iperf clients (talkers) on hosts h1 and h3.  Additional iperf clients can be started manually as follows:
 
         mininet> h1 xterm
@@ -163,10 +163,10 @@ As a reminder, the mininet script launches "iperf" servers (listeners) on all fo
 
 Once started, the monitor and web client will be notified of the new connection, and you can select it via the flow filter on the UI. The web client will confirm the physical path the connection is taking, as well as the latency values collected via each packet along the network path.
 
-* Fail-over test
-  * Run a long-running iperf connection between h1 and h3.
-    Check which spine switch the connection passes through, using UI.
-  * Open leaf1 terminal using "leaf1 xterm" at the mininet CLI.
+Fail-over test
+--------------
+  * Start a long-running iperf connection between h1 and h3.  Check which spine switch the connection passes through, using the web client UI.
+  * Open a terminal on the leaf1 switch using the command "leaf1 xterm" at the mininet CLI.
   * If the connection is going through spine1, shut down the port on leaf2 that
     is connected to spine1. You can do this by typing "ifconfig swp3 down" in 
     the leaf1 xterm. If it is going through spine2, type "ifconfig swp4 down"
@@ -176,17 +176,8 @@ Once started, the monitor and web client will be notified of the new connection,
 
 Known issues
 ============
-
-* Performance problems
-  * If you run the entire test setup in one machine with a limited # of CPU
-    cores, and run several high-volume connections, then the system can get
-    overloaded. In such a situation, the reported hop latency values can be very
-    high because packet-handling threads in the P4 s/w switch (behavioral model)
-    might not be scheduled timely.
-  * Introducing more switches, increasing the bandwidth limit of the mininet
-    links, introducing a larger number of active connections, etc. can increase
-    the contention for CPU cycles, increasing performance issues. 
-
-* iperf server process can hang under high workload
-
-* Do not reload/refresh the web client page while application is running.
+Performance limitations
+* If you run the entire topology on a machine with limited CPU resources and run multiple high-volume connections, the setup can get overloaded.  In such a situation, the reported hop latency values may be very high due to scheduling variability  in the packet-handling threads.  This can be mitigated (but only to a small extent) by prioritizing the switch processes.
+* Changes such as adding switches, increasing the bandwidth of the mininet links, or adding active connections can increase the contention for CPU cycles.  Check the CPU utilization of the system if inconsistent results are observed.
+* the iperf server process may hang under high workload (under investigation)
+* Do not reload/refresh the web client page while application is running - if this occurs the connection between the client and monitor process will drop and **both** will need to be reset.
