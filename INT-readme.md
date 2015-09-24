@@ -149,8 +149,8 @@ The UI has the following components:
 
 The switches are color-coded in the graphs with a legend immediately below the topology diagram.
 
-Test cases
-==========
+Test cases (or, "start hacking")
+========================================
 As a starting point, here are two simple test cases that can be built on top of the baseline topology and tools:
 
 Example 1: iperf test
@@ -173,9 +173,8 @@ Example 2: routing fail-over test
   * Confirm the physical path for the ongoing connection changes after 3sec,
     which is the BGP hold-down timeout.
 
-Known issues
-============
-Performance limitations
+Known issues, performance limitations
+---------------
 * If you run the entire topology on a machine with limited CPU resources and run multiple high-volume connections, the setup can get overloaded.  In such a situation, the reported hop latency values may be very high due to scheduling variability  in the packet-handling threads.  This can be mitigated (but only to a small extent) by prioritizing the switch processes.
 * Changes such as adding switches, increasing the bandwidth of the mininet links, or adding active connections can increase the contention for CPU cycles.  Check the CPU utilization of the system if inconsistent results are observed.
 * the iperf server process may hang under high workload (under investigation)
