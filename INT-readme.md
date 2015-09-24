@@ -131,12 +131,7 @@ Each mininet host runs an instance of the preprocessor process, which captures a
 Web client UI
 =============
 
-The web client connects to the monitor process via a websocket (a protocol that
-provides full-duplex communication channels over a single TCP connection). The
-monitor notifies the client when either a new flow is detected in the network
-or a path change is detected in an existing flow. Additionally, the monitor
-periodically (every 10ms) sends the max latency encountered by each switch
-within that interval, to the client.
+The web client connects to the monitor process via a websocket (a protocol that provides full-duplex communication channels over a single TCP connection).  The monitor notifies the client when either a new flow is detected in the network or a path change is detected in an existing flow. Additionally, the monitor periodically (10ms) sends the max queueing latency within that time window to the client.
 
 The UI has the following components: 
 
@@ -147,14 +142,13 @@ The UI has the following components:
    blue. In case of a path change in the flow, the old path is highlighted in
    red.
 3. **Real-time hop latencies per switch:** One time series graph is shown per
-   switch. Each bar in the graph indicates the max hop latency observed at that
-   switch in a particular 10ms window. These time series charts refresh every
+   switch: each bar in the graph indicates the high-water latency value at that
+   switch in each 10ms time window. These time series charts refresh every
    1 sec.
 4. **Notifications window:** Whenever a loop is detected, a text notification is
-   displayed here.
+   displayed here.  
 
-The switches are color-coded in the graphs. The legend explaining the
-switch-to-color mapping is provided below the network topology graph.
+The switches are color-coded in the graphs with a legend immediately below the topology diagram.
 
 Test cases
 ==========
