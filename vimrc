@@ -1,5 +1,4 @@
-" LJ's super-basic vimrc file...
-
+set nocp
 set nowrap
 set wrapmargin=8
 set formatoptions=tcql2
@@ -7,13 +6,12 @@ set comments=sr:/*,mb:*,el:*/,://,b:#,:%,:XCOMM,n:>,fb:-,b:\",fb:*,n:}
 set nocindent
 set nocompatible
 syntax on
-colorscheme slate
 filetype on
 au BufNewFile,BufRead *.p4 set filetype=p4
 
-"let &t_ti.="\e[1 q"
-"let &t_SI.="\e[5 q"
-"let &t_EI.="\e[1 q"
-"let &t_te.="\e[0 q"
 
-"
+" double-quotes are comments for the .vimrc file
+set backspace=indent,eol,start
+"set term=xterm-256
+syntax on
+set hlsearch
