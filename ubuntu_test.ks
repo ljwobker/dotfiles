@@ -22,7 +22,7 @@ timezone America/New_York
 rootpw --disabled
 
 #Initial user (user with sudo capabilities) 
-user ubuntu --fullname "Ubuntu User" --password root4me2
+user lwobker --fullname "LJ Wobker" --password notsecure
 
 #Reboot after installation
 reboot
@@ -34,10 +34,11 @@ text
 install
 
 #Installation media
-cdrom
+#cdrom
 #nfs --server=server.com --dir=/path/to/ubuntu/
 #url --url http://server.com/path/to/ubuntu/
 #url --url ftp://server.com/path/to/ubuntu/
+url --url http://us.archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/
 
 #System bootloader configuration
 bootloader --location=mbr 
@@ -50,7 +51,7 @@ clearpart --all --initlabel
 
 #Basic disk partition
 part / --fstype ext4 --size 1 --grow --asprimary 
-part swap --size 1024 
+part swap --size 2048 
 part /boot --fstype ext4 --size 256 --asprimary 
 
 #Advanced partition
@@ -65,10 +66,10 @@ part /boot --fstype ext4 --size 256 --asprimary
 auth  --useshadow  --enablemd5 
 
 #Network information
-network --bootproto=dhcp --device=eth0
+#network --bootproto=dhcp --device=eth0
 
 #Firewall configuration
-firewall --disabled --trust=eth0 --ssh 
+#firewall --disabled --trust=eth0 --ssh 
 
 #Do not configure the X Window System
 skipx
