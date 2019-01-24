@@ -49,19 +49,13 @@ part swap --size 2048
 part /boot --fstype ext4 --size 256 --asprimary
 
 #Advanced partition
-#part /boot --fstype=ext4 --size=500 --asprimary
-#part pv.aQcByA-UM0N-siuB-Y96L-rmd3-n6vz-NMo8Vr --grow --size=1
-#volgroup vg_mygroup --pesize=4096 pv.aQcByA-UM0N-siuB-Y96L-rmd3-n6vz-NMo8Vr
-#logvol / --fstype=ext4 --name=lv_root --vgname=vg_mygroup --grow --size=10240 --maxsize=20480
-#logvol swap --name=lv_swap --vgname=vg_mygroup --grow --size=1024 --maxsize=8192
+# see docs if you care!
 
 #System authorization infomation
 auth  --useshadow  --enablemd5
 
 #Network information
-#network --bootproto=dhcp --device=eth0
 network --bootproto=dhcp
-
 
 #Firewall configuration
 #firewall --disabled --trust=eth0 --ssh 
@@ -76,24 +70,18 @@ curl
 htop
 kexec-tools
 
-
 %pre
-
-sleep 3
-
+sleep 1
 %end
 
-
-
+#in postinstall fixup the grub files so the console port is in the right place: ttyS0 on my KVM setup
 %post --nochroot
-
 (
     sed -i "s;quiet;quiet console=ttyS0;" /target/etc/default/grub
     sed -i "s;quiet;quiet console=ttyS0;g" /target/boot/grub/grub.cfg
 ) 1> /target/root/post_install.log 2>&1
 
-wget http://192.168.15.150/MEBENEW
-wget http://192.168.15.150/MEBENEW
+# do a web get so I can ID the local IP address in the logs...
 wget http://192.168.15.150/MEBENEW
 
 %end
